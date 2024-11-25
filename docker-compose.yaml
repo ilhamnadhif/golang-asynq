@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:latest
+    container_name: redis
+    restart: always
+    ports:
+      - "6379:6379" # Memetakan port Redis di host ke container
+    volumes:
+      - redis_data:/data # Menyimpan data Redis agar tetap ada meskipun container dihapus
+    command: ["redis-server", "--save", "60", "1", "--loglevel", "notice"]
+
+volumes:
+  redis_data:
+    driver: local
