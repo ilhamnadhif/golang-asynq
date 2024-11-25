@@ -4,6 +4,7 @@ import (
 	"asynq/dto"
 	"encoding/json"
 	"fmt"
+	"os"
 	"time"
 
 	"github.com/hibiken/asynq"
@@ -11,6 +12,13 @@ import (
 
 func main() {
 	// Buat koneksi ke Redis
+
+	if len(os.Args) < 2 {
+		fmt.Println("Harap masukkan parameter tambahan.")
+		return
+	}
+	param := os.Args[1]
+
 	client := asynq.NewClient(asynq.RedisClientOpt{
 		Addr: "localhost:6379",
 	})
@@ -19,7 +27,7 @@ func main() {
 	// Data yang akan diproses
 
 	payload, err := json.Marshal(dto.DataSubscription{
-		Msisdn: "234234",
+		Msisdn: param,
 	})
 	if err != nil {
 		panic(err)
